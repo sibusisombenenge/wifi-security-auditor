@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react';
 
 const THREATS = [
-  { label: 'KRACK',  x: 30,  delay: 0.5,  dist: 198, dur: 1.0  },
-  { label: 'MITM',   x: 260, delay: 0.85, dist: 188, dur: 0.95 },
-  { label: 'PMKID',  x: 110, delay: 1.25, dist: 202, dur: 1.05 },
-  { label: 'TKIP',   x: 310, delay: 0.65, dist: 190, dur: 0.9  },
-  { label: 'DEAUTH', x: 175, delay: 1.65, dist: 198, dur: 1.0  },
-  { label: '0DAY',   x: 355, delay: 1.1,  dist: 183, dur: 0.88 },
+  { label: 'KRACK',  pct: 0.08, delay: 0.5,  dist: 210, dur: 1.0  },
+  { label: 'MITM',   pct: 0.22, delay: 0.85, dist: 200, dur: 0.95 },
+  { label: 'PMKID',  pct: 0.38, delay: 1.25, dist: 215, dur: 1.05 },
+  { label: 'TKIP',   pct: 0.55, delay: 0.65, dist: 205, dur: 0.9  },
+  { label: 'DEAUTH', pct: 0.70, delay: 1.65, dist: 210, dur: 1.0  },
+  { label: '0DAY',   pct: 0.88, delay: 1.1,  dist: 200, dur: 0.88 },
 ];
 
 const FRAG_COLORS = ['#f39c12', '#5dade2', '#ffffff', '#aed6f1', '#f9e79f'];
@@ -71,15 +71,16 @@ export default function LoadingScreen({ onDone }) {
     }
 
     THREATS.forEach(t => {
+      const x = Math.floor(t.pct * window.innerWidth);
       const el = document.createElement('div');
       el.style.cssText = `position:absolute;top:-30px;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:11px;letter-spacing:0.1em;color:rgba(255,80,80,0.92);z-index:5;pointer-events:none;`;
-      el.style.left = t.x + 'px';
+      el.style.left = x + 'px';
       el.style.setProperty('--dist', t.dist + 'px');
       el.style.animation = `fall ${t.dur}s linear ${t.delay}s forwards`;
       el.textContent = t.label;
       stage.appendChild(el);
       const impactTime = (t.delay + t.dur * 0.74) * 1000;
-      const tid = setTimeout(() => spawnFragments(t.x + 22, -30 + t.dist), impactTime);
+      const tid = setTimeout(() => spawnFragments(x + 20, -30 + t.dist), impactTime);
       timersRef.current.push(tid);
     });
 
@@ -190,7 +191,7 @@ export default function LoadingScreen({ onDone }) {
       }}>
         <p style={{
           color: '#ffffff',
-          fontSize: '13px',
+          fontSize: '22px',
           fontWeight: 700,
           letterSpacing: '0.22em',
           textTransform: 'uppercase',
@@ -199,7 +200,7 @@ export default function LoadingScreen({ onDone }) {
         }}>WIFI GUARDED</p>
         <p style={{
           color: '#4ade80',
-          fontSize: '10px',
+          fontSize: '11px',
           fontWeight: 500,
           letterSpacing: '0.14em',
           textTransform: 'uppercase',
