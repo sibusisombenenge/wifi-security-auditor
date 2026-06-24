@@ -1,4 +1,7 @@
+//App.jsx
+
 import { useState } from 'react';
+import LoadingScreen from './components/LoadingScreen';
 import HeroScreen from './components/HeroScreen';
 import BrandStep from './components/BrandStep';
 import SecurityStep from './components/SecurityStep';
@@ -9,7 +12,7 @@ import ProgressBar from './components/ProgressBar';
 import './styles/app.css';
 
 export default function App() {
-  const [step, setStep] = useState(-1);
+  const [step, setStep] = useState(-2);
   const [brand, setBrand] = useState(null);
   const [secType, setSecType] = useState(null);
 
@@ -20,6 +23,10 @@ export default function App() {
     setSecType(null);
     go(-1);
   };
+
+  if (step === -2) {
+    return <LoadingScreen onDone={() => go(-1)} />;
+  }
 
   return (
     <div className="app-shell">
@@ -40,23 +47,12 @@ export default function App() {
         {step >= 0 && step < 4 && (
           <ProgressBar current={step} total={4} />
         )}
-
         {step === -1 && <HeroScreen onStart={() => go(0)} />}
-        {step === 0 && (
-          <BrandStep selected={brand} onSelect={setBrand} onNext={() => go(1)} />
-        )}
-        {step === 1 && (
-          <SecurityStep selected={secType} onSelect={setSecType} onNext={() => go(2)} onBack={() => go(0)} />
-        )}
-        {step === 2 && (
-          <RiskReport brand={brand} secType={secType} onNext={() => go(3)} onBack={() => go(1)} />
-        )}
-        {step === 3 && (
-          <RemediationGuide brand={brand} secType={secType} onNext={() => go(4)} onBack={() => go(2)} />
-        )}
-        {step === 4 && (
-          <VerifyStep onRestart={restart} />
-        )}
+        {step === 0 && <BrandStep selected={brand} onSelect={setBrand} onNext={() => go(1)} />}
+        {step === 1 && <SecurityStep selected={secType} onSelect={setSecType} onNext={() => go(2)} onBack={() => go(0)} />}
+        {step === 2 && <RiskReport brand={brand} secType={secType} onNext={() => go(3)} onBack={() => go(1)} />}
+        {step === 3 && <RemediationGuide brand={brand} secType={secType} onNext={() => go(4)} onBack={() => go(2)} />}
+        {step === 4 && <VerifyStep onRestart={restart} />}
       </main>
 
       <footer className="app-footer">

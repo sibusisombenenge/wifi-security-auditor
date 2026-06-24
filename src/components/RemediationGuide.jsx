@@ -48,8 +48,8 @@ export default function RemediationGuide({ brand, secType, onNext, onBack }) {
           <div className="tip-label">Also: use a strong WiFi password</div>
           <p>
             Even with WPA2-AES, a weak password can be cracked offline. Use a passphrase of
-            at least <strong>12 characters</strong> mixing letters, numbers, and symbols.
-            Example: <code>Joburg@Sunny2024!</code>
+            at least <strong>16 characters</strong> mixing letters, numbers, and symbols.
+            Example: <code>vK#9mP!qX2$nL7wR</code>
           </p>
         </div>
       )}
