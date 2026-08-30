@@ -1,12 +1,14 @@
 # Security Policy
 
+For project overview, features, and architecture, see [README.md](README.md).
+
 ## Threat Model
 
 SA WiFi Guard is a client-side educational tool. It collects no user data, makes no external network requests, and stores nothing server-side. The attack surface is intentionally minimal.
 
 ### What this app does
 - Runs entirely in the browser
-- Accepts user input (router brand, security type selection)
+- Accepts user input (router brand, security type selection via controlled dropdowns)
 - Renders router-specific remediation instructions
 - Links to local router admin interfaces (e.g. `http://192.168.8.1`)
 
@@ -22,17 +24,19 @@ SA WiFi Guard is a client-side educational tool. It collects no user data, makes
 
 ### Content Security Policy
 A strict CSP is set in `index.html`:
-```
 default-src 'self';
 style-src 'self' 'unsafe-inline';
 script-src 'self';
 connect-src 'none';
 img-src 'self' data:;
-```
+plain
+
 `connect-src 'none'` prevents the app from making any outbound HTTP requests even if injected script attempts to do so.
 
-### No dangerouslySetInnerHTML on user input
-The only use of `dangerouslySetInnerHTML` is on static strings defined in `src/data/routers.js` (router step instructions containing `<strong>` and `<code>` tags). These are not derived from user input and are not injectable.
+### Input handling
+- Router brand and encryption type are selected via controlled dropdowns, not free-text input, eliminating injection vectors at the UI layer.
+- The only use of `dangerouslySetInnerHTML` is on static strings defined in `src/data/routers.js` (router step instructions containing `<strong>` and `<code>` tags). These are not derived from user input and are not injectable.
+- Companion agent output (if used) is parsed as structured data and HTML-encoded before rendering.
 
 ### No external dependencies at runtime
 The app uses no CDN-loaded scripts or third-party analytics. All code is bundled locally.
@@ -45,14 +49,26 @@ When deployed to Vercel, HTTP requests are automatically redirected to HTTPS. Th
 
 ---
 
-## Reporting a Vulnerability
+## Known Limitations
 
-If you find a security issue in this project, please open a GitHub issue or contact the maintainer directly. Do not publicly disclose vulnerabilities before they are patched.
+- **No real WiFi scanning**: The browser sandbox prevents reading WiFi encryption type. This app relies on user-reported input or the optional companion agent.
+- **Router instructions may be outdated**: Router firmware updates can change admin interface layouts. Steps are accurate as of 2025 for the listed models.
+- **Gateway links are HTTP**: Local router admin pages do not use HTTPS. This is a limitation of router hardware, not this app.
+- **Companion agent requires local execution**: The Python agent runs on the user's machine with their privileges. It does not elevate privileges or modify system settings.
 
 ---
 
-## Known Limitations
+## Accuracy & Safety Notes
 
-- **No real WiFi scanning**: The browser sandbox prevents reading WiFi encryption type. This app relies on user-reported input.
-- **Router instructions may be outdated**: Router firmware updates can change admin interface layouts. Steps are accurate as of 2025 for the listed models.
-- **Gateway links are HTTP**: Local router admin pages do not use HTTPS. This is a limitation of router hardware, not this app.
+This is an educational tool. Remediation steps are tested against known router firmware versions but may not account for:
+- ISP-customised firmware interfaces
+- Updated firmware changing menu structures
+- Regional variations in router models
+
+Users should verify settings against their router's actual admin interface.
+
+---
+
+## Reporting a Security Issue
+
+If you find a security issue in this project, please open a GitHub issue or contact the maintainer directly.
