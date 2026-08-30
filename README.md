@@ -1,6 +1,6 @@
 # SA WiFi Guard — WiFi Security Auditor
 
-> A tool for identifying weak wireless encryption configurations and educating South African users on real-world attack vectors (MITM, KRACK, PMKID, TKIP exploitation) with router-specific remediation guides.
+A tool for identifying weak wireless encryption configurations and educating South African users on real-world attack vectors (MITM, KRACK, PMKID, TKIP exploitation) with router-specific remediation guides.
 
 ![Status](https://img.shields.io/badge/status-in%20development-yellow)
 ![Stack](https://img.shields.io/badge/stack-React%20%7C%20Python-blue)
@@ -28,6 +28,7 @@ SA WiFi Guard is a web-based security auditor that:
 ---
 
 ## Architecture
+
 
 ```
 ┌─────────────────────────────────┐
@@ -129,12 +130,12 @@ See [`SECURITY.md`](./SECURITY.md) for the full threat model and hardening decis
 
 | Feature | Status |
 |---|---|
-| Self-check wizard UI | Planned |
-| Risk scoring engine | Planned |
-| SA router remediation guides | Planned |
+| Self-check wizard UI | Implemented |
+| Risk scoring engine | Implemented |
+| SA router remediation guides | Implemented |
 | Attack vector visualisations | Planned |
 | Python companion agent | Planned |
-| Before/after verification | Planned |
+| Before/after verification | Implemented |
 | Password generator | Planned |
 
 ---
