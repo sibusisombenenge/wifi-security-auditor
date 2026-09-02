@@ -95,7 +95,7 @@ Each router guide includes: the correct gateway IP, default credentials, and exa
 
 | Layer | Technology |
 |---|---|
-| Frontend | React (Next.js) |
+| Frontend | React (Vite) |
 | Visualisations | D3.js / CSS animations |
 | Companion Agent | Python (CLI) |
 | Backend (if needed) | Python — Flask / FastAPI |
