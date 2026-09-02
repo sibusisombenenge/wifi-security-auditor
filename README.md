@@ -112,7 +112,6 @@ This tool practises what it preaches:
 - All companion agent output sanitised before rendering
 - Rate limiting on any backend endpoints
 - Stateless analysis — no sensitive data stored server-side
-- No XSS, no injection vulnerabilities
 
 See [`SECURITY.md`](./SECURITY.md) for the full threat model and hardening decisions.
 
